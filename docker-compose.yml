@@ -1,0 +1,79 @@
+version: "3.3"
+
+services:
+  traefik:
+    image: traefik:v2.2
+    container_name: traefik
+    ports:
+      - 80:80
+      - 443:443
+      - 8080:8080
+    command:
+      - "--api.insecure=true"
+      - "--providers.docker=true"
+      - "--providers.docker.exposedbydefault=false"
+      - "--entrypoints.web.address=:80"
+    volumes:
+      - ./traefik/traefik.yml:/etc/traefik/traefik.yml
+
+  mainpage:
+    image: kamilwronka7/csgoed-mainpage:latest
+    logging:
+      driver: none
+    environment:
+      - MAINPAGE_PORT=80
+      - MAINPAGE_API_URL=http://mainpage-cms:80
+    deploy:
+      replicas: 5
+
+  mainpage-cms:
+    image: kamilwronka7/csgoed-mainpage-cms:latest
+    logging:
+      driver: none
+    environment:
+      - CMS_PORT=80
+      - CMS_DATABASE_HOST
+      - CMS_DATABASE_NAME
+      - CMS_DATABASE_PORT
+      - CMS_HOST
+    deploy:
+      replicas: 1
+
+  cms-db:
+    image: bitnami/mongodb:4.2-debian-10
+    logging:
+      driver: none
+    deploy:
+      replicas: 1
+
+  backend-db:
+    image: bitnami/mongodb:4.2-debian-10
+    logging:
+      driver: none
+    deploy:
+      replicas: 1
+
+  dashboard:
+    image: kamilwronka7/csgoed-frontend:latest
+    logging:
+      driver: none
+    deploy:
+      replicas: 5
+
+  dashboard-backend:
+    image: kamilwronka7/csgoed-backend:latest
+    logging:
+      driver: none
+    environment:
+      - PORT=80
+      - PAGE_URL
+      - DASHBOARD_URL
+      - DOMAIN_NAME
+      - MAILGUN_DOMAIN
+      - MAILGUN_API_KEY
+      - MAILGUN_HOST
+      - MONGODB_URI
+      - STRIPE_PUBLISHABLE_KEY
+      - STRIPE_SECRET_KEY
+    deploy:
+      replicas: 8
