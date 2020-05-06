@@ -34,10 +34,10 @@ services:
       - MAINPAGE_PORT
       - MAINPAGE_API_URL
     deploy:
-      replicas: 1
+      replicas: 5
       labels:
         - "traefik.enable=true"
-        - "traefik.http.routers.mainpage.rule=Host(`csgoed.test`)"
+        - "traefik.http.routers.mainpage.rule=Host(`csgoed.com`)"
         - "traefik.http.services.mainpage.loadbalancer.server.port=80"
         - "traefik.http.routers.mainpage.entrypoints=web,websecure"
         - "traefik.http.routers.mainpage.tls=true"
@@ -58,7 +58,7 @@ services:
       replicas: 1
       labels:
         - "traefik.enable=true"
-        - "traefik.http.routers.mainpage-cms.rule=Host(`admin.csgoed.test`)"
+        - "traefik.http.routers.mainpage-cms.rule=Host(`admin.csgoed.com`)"
         - "traefik.http.services.mainpage-cms.loadbalancer.server.port=80"
         - "traefik.http.routers.mainpage-cms.entrypoints=web,websecure"
         - "traefik.http.routers.mainpage-cms.tls=true"
@@ -85,10 +85,10 @@ services:
     networks:
       - internal
     deploy:
-      replicas: 1
+      replicas: 5
       labels:
         - "traefik.enable=true"
-        - "traefik.http.routers.dashboard.rule=Host(`dashboard.csgoed.test`)"
+        - "traefik.http.routers.dashboard.rule=Host(`dashboard.csgoed.com`)"
         - "traefik.http.services.dashboard.loadbalancer.server.port=80"
         - "traefik.http.routers.dashboard.entrypoints=web,websecure"
         - "traefik.http.routers.dashboard.tls=true"
@@ -114,11 +114,11 @@ services:
     deploy:
       labels:
         - "traefik.enable=true"
-        - "traefik.http.routers.api.rule=Host(`api.csgoed.test`)"
+        - "traefik.http.routers.api.rule=Host(`api.csgoed.com`)"
         - "traefik.http.services.api.loadbalancer.server.port=80"
         - "traefik.http.routers.api.entrypoints=web,websecure"
         - "traefik.http.routers.api.tls=true"
-      replicas: 1
+      replicas: 10
 
 networks:
   internal:
