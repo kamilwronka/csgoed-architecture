@@ -34,7 +34,7 @@ services:
       - MAINPAGE_PORT
       - MAINPAGE_API_URL
     deploy:
-      replicas: 5
+      replicas: 4
       labels:
         - "traefik.enable=true"
         - "traefik.http.routers.mainpage.rule=Host(`csgoed.com`)"
@@ -85,7 +85,7 @@ services:
     networks:
       - internal
     deploy:
-      replicas: 5
+      replicas: 3
       labels:
         - "traefik.enable=true"
         - "traefik.http.routers.dashboard.rule=Host(`dashboard.csgoed.com`)"
@@ -118,7 +118,7 @@ services:
         - "traefik.http.services.api.loadbalancer.server.port=80"
         - "traefik.http.routers.api.entrypoints=web,websecure"
         - "traefik.http.routers.api.tls=true"
-      replicas: 10
+      replicas: 6
 
 networks:
   internal:
