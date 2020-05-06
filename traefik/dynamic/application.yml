@@ -1,0 +1,15 @@
+# http:
+#   routers:
+#     mainpage-cms:
+#       rule: Host(admin.csgoed.test)
+#       entrypoints:
+#         - web
+#       service: "mainpage-cms@docker"
+
+# http:
+#   routers:
+#     mainpage:
+#       rule: Host(csgoed.test)
+#       entrypoints:
+#         - web
+#       service: "mainpage@docker"
